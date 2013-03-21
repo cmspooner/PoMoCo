@@ -11,34 +11,23 @@ serialSends = []
 BAUD_RATE = 9600
 
 
-class runMovement(threading.Thread):
-
+class runMovement():
     def __init__(self,function,*args):
-        threading.Thread.__init__(self)
         self.function=function
         self.args = args
-        self.start()
+        self.run()
 
     def run(self):
         self.function(*self.args)
 
-class serHandler(threading.Thread):
-
+class serHandler():
     def __init__(self):
-        threading.Thread.__init__(self)
-
         self.ser = None
-
         self.sendQueue=[]
-        self.sendLock = threading.Lock()
-
         self.recieveQueue=[]
-        self.recieveLock = threading.Lock()
-
         self.serOpen = False
         self.serNum = 0
-
-        self.start()
+        self.run()
 
     def __del__(self):
         self.ser.close()
@@ -46,12 +35,11 @@ class serHandler(threading.Thread):
     def run(self):
         self.connect()
         while(True):
+            print "hello"
             # Send waiting messages
             send = False
             if(len(self.sendQueue)>0):
-                self.sendLock.acquire()
                 toSend = self.sendQueue.pop(0)
-                self.sendLock.release()
                 send = True
             else:
                 time.sleep(0.01) # Keeps infinite while loop from killing processor
@@ -136,7 +124,6 @@ class serHandler(threading.Thread):
                         pass
                     
 class Servo:
-
     def __init__(self,servoNum,serHandler,servoPos=1500,offset=0,active=False):
         self.serHandler = serHandler
         self.active = active
@@ -186,9 +173,7 @@ class Servo:
     def kill(self):
         self.active = False
         toSend = "#%dL\r"%(self.servoNum)
-        self.serHandler.sendLock.acquire()
         self.serHandler.sendQueue.append(toSend)
-        self.serHandler.sendLock.release()
         if debug: print "Sending command #%dL to queue"%self.servoNum
 
     def move(self):
@@ -205,15 +190,11 @@ class Servo:
 
             # Send the message the serial handler in a thread-safe manner
             toSend = "#%dP%.4dT0\r"%(self.servoNum,int(servoPos))
-            self.serHandler.sendLock.acquire()
             self.serHandler.sendQueue.append(toSend)
-            self.serHandler.sendLock.release()
         else:
             try:
                 toSend = "#%.4dL\r"%(self.servoNum,int(servoPos))
-                self.serHandler.sendLock.acquire()
                 self.serHandler.sendQueue.append(toSend)
-                self.serHandler.sendLock.release()
                 if debug: print "Sending command #%dL to queue"%self.servoNum
             except:
                 pass
