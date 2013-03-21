@@ -10,7 +10,7 @@ sys.dont_write_bytecode = True
 sys.path.append('Moves')
 sys.path.append('PoMoCo')
 
-import customServotorComm
+import servotorComm
 from robot import hexapod
 import GUI
 
