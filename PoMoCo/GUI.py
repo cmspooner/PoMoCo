@@ -6,7 +6,7 @@ from tkFileDialog   import asksaveasfilename
 
 import os
 import ConfigParser
-from servotorComm import runMovement
+from customServotorComm import runMovement
 
 FPS = 10
 
