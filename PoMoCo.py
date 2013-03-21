@@ -17,7 +17,7 @@ import GUI
 if __name__ == '__main__':
     
     # Intialize the servo controller
-    controller = customServotorComm.Controller()
+    controller = servotorComm.Controller()
     
     # Set up the servo controller to run Hexy
     hexy = hexapod(controller)

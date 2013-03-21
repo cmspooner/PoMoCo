@@ -27,7 +27,6 @@ class serHandler():
         self.recieveQueue=[]
         self.serOpen = False
         self.serNum = 0
-        self.run()
 
     def __del__(self):
         self.ser.close()
@@ -35,7 +34,6 @@ class serHandler():
     def run(self):
         self.connect()
         while(True):
-            print "hello"
             # Send waiting messages
             send = False
             if(len(self.sendQueue)>0):
