@@ -11,7 +11,9 @@ BAUD_RATE = 9600
 
 class runMovement():
     def __init__(self,function,*args):
-        function(*args)
+        self.function=function
+        self.args = args
+        self.function(*self.args)
 
 
 class serHandler():
