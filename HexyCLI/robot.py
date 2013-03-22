@@ -2,6 +2,7 @@ import time
 import math
 
 from servotorComm import runMovement
+from servotorComm import Controller
 
 # Modifies how smoothly the servos move.
 # Smoother means more processing power, and fills the serial line.
@@ -152,4 +153,8 @@ if __name__ == '__main__':
     hexy = hexapod(conn)
     __builtins__.hexy = hexy # sets 'hexy' to be a global variable common to all modules
     __builtins__.floor = 60  # this is the minimum level the legs will reach
-    
+    hexy.RF.hip(-50)
+    hexy.RF.hip(0)
+    hexy.RF.hip(50)
+    while len(conn.serialHandler.sendQueue) >0:
+        conn.serialHandler.sendCommand()
