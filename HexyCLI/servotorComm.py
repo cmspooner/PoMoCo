@@ -9,6 +9,11 @@ serialSends = []
 
 BAUD_RATE = 9600
 
+class runMovement():
+    def __init__(self,function,*args):
+        function(*args)
+
+
 class serHandler():
     def __init__(self):
         self.ser = None
@@ -190,7 +195,7 @@ class dummySer():
         
     def write(self, cmd):
         print cmd
-        #should make this englis, i.e: FR hip 30 deg
+        #should make this english, i.e: FR hip 30 deg
     
     def readline():
         return ""
@@ -226,8 +231,8 @@ class Controller:
 if __name__ == '__main__':
     pass
     conn = Controller()
-    conn.servos[1].setPos(deg=30)
-    conn.servos[2].setPos(deg=60)
+    for s in conn.servos:
+        conn.servos[s].setPos(deg=0)
     print conn.serialHandler.sendQueue
     while len(conn.serialHandler.sendQueue) >0:
         conn.serialHandler.sendCommand()
